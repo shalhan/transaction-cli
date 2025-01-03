@@ -1,0 +1,35 @@
+{
+  "name": "authcli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "dev": "npx tsc ./src/app.ts",
+    "build": "npx tsc --build tsconfig.json",
+    "start": "node dist/app.js",
+    "db:seed": "npx tsx ./lib/seeder seed",
+    "db:remove": "npx tsx ./lib/seeder remove"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@jest/globals": "^29.7.0",
+    "@types/express": "^4.17.1",
+    "@types/jest": "^29.5.14",
+    "babel-jest": "^29.7.0",
+    "fake-indexeddb": "^6.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "rxdb": "^15.39.0",
+    "rxjs": "^7.8.1"
+  }
+}
