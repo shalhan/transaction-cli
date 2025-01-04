@@ -3,7 +3,7 @@ export interface Port {
     update(lender: string, borrower: string, amount: number): Promise<any>;
     findByBorrower(borrower: string): Promise<FindByPortResult[]>
     findByLenderAndBorrower(usernameLender: string, usernameBorrower: string): Promise<FindByPortResult>
-    findByLenderOrBorrower(username): Promise<FindByPortResult[]>
+    findByLenderOrBorrower(username: string): Promise<FindByPortResult[]>
 }
 
 export interface Service {

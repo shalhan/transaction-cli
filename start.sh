@@ -10,7 +10,8 @@ npm run db:seed
 
 trap 'cleanup; exit' SIGINT SIGTERM
 
-npm run dev 
+npm run build
+npm run start 
 
 # Capture the PID of the background process
 pid=$!

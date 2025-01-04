@@ -3,12 +3,15 @@ import { addRxPlugin, createRxDatabase } from 'rxdb';
 import {
     getRxStorageMongoDB
 } from 'rxdb/plugins/storage-mongodb';
+import dotenv from 'dotenv'; 
+
 addRxPlugin(RxDBUpdatePlugin)
+dotenv.config(); 
 
 export const db = await createRxDatabase({
     name: 'mydatabase',
     storage: getRxStorageMongoDB({
-        connection: 'mongodb://localhost:27017',
+        connection: process.env.DB_URL,
     }),
     ignoreDuplicate: true,
   });

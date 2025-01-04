@@ -16,18 +16,18 @@ app.listen(port, () => {
   const session = {}
 
   const commands = {
-      login: async (username) => {
+      login: async (username: string) => {
         await authCtrl.login(username);
         session["username"] = username; 
       },
-      transfer: async (to, amount) => {
+      transfer: async (to: string, amount: number) => {
         if (Object.keys(session).length == 0 || session["username"] == "") {
           console.error('unauthorized');
           return;
         }
         await transactionCtrl.transfer(session["username"], to, amount);
       },
-      deposit: async (amount) => {
+      deposit: async (amount: number) => {
         if (Object.keys(session).length == 0 || session["username"] == "") {
           console.error('unauthorized');
           return;
