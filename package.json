@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "dev": "npx tsc ./src/app.ts",
+    "dev": "npx tsx ./src/app.ts",
     "build": "npx tsc --build tsconfig.json",
     "start": "node dist/app.js",
     "db:seed": "npx tsx ./lib/seeder seed",

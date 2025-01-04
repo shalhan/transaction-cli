@@ -1,7 +1,6 @@
 import express from 'express';
 import { authCtrl, transactionCtrl, transactionSvc } from './di';
 import readline from 'readline';
-import { db } from './db';
 
 const app = express();
 const port = 3022;

@@ -1,15 +1,19 @@
-export interface Port {
-    findBy(username: string): Promise<FindByPortResult | null>;
+import {
+    Port,
+    Service,
+    FindByServiceResult,
+    FindByPortResult,
+} from './spec';
+
+import { UserService } from './UserService';
+
+export {
+    FindByServiceResult,
+    FindByPortResult,
+    UserService
 }
 
-export interface Service {
-    findBy(username: string): Promise<FindByServiceResult | null>;
-}
-
-export class FindByServiceResult {
-    username: string;
-}
-
-export class FindByPortResult {
-    username: string;
+export type {
+    Port,
+    Service,
 }

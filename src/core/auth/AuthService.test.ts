@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import {AuthService} from './AuthService';
-import { LoginServiceResult } from './index'; 
+import { LoginServiceResult } from './spec'; 
 
 import * as User from "../user";
 import * as Balance from "../balance";

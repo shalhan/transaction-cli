@@ -1,11 +1,9 @@
-import { UserRepository } from './adapter/rxdb/UserRepository';
-import { UserService } from './core/user/UserService';
-import { AuthService } from './core/auth/AuthService';
-import { BalanceService } from './core/balance/BalanceService';
-import { BalanceRepository } from './adapter/rxdb/BalanceRepository';
-import { TransactionService } from './core/transaction/TransactionService';
-import { DebitService } from './core/debit/DebitService';
-import { DebitRepository } from './adapter/rxdb/DebitRepository';
+import { BalanceRepository, UserRepository, DebitRepository } from './adapter/rxdb';
+import { UserService } from './core/user';
+import { AuthService } from './core/auth';
+import { BalanceService } from './core/balance';
+import { TransactionService } from './core/transaction';
+import { DebitService } from './core/debit';
 import { AuthController } from './app/cli/AuthController';
 import { TransactionController } from './app/cli/TransactionController';
 import { db } from './db';

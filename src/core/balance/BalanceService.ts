@@ -1,4 +1,4 @@
-import { Port, FindByServiceResult, AppendServiceResult, Service, UpdateServiceResult, FindByPortResult, UpdatePortResult } from "."
+import { Port, FindByServiceResult, AppendServiceResult, Service, UpdateServiceResult, FindByPortResult, UpdatePortResult } from "./spec"
 
 export class BalanceService implements Service {
     private balanceAdapter: Port

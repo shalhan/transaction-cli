@@ -1,4 +1,4 @@
-import { LoginServiceResult, Service } from ".";
+import { LoginServiceResult, Service } from "./spec";
 import * as User from "../user";
 import * as Balance from "../balance";
 import * as Debit from "../debit";

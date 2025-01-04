@@ -1,4 +1,4 @@
-import { FindByServiceResult, Port } from ".";
+import { FindByServiceResult, Port } from "./spec";
 
 export class UserService {
     private adapter: Port;

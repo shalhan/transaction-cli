@@ -1,4 +1,4 @@
-import { Port, AppendServiceResult, FindByPortResult, UpdatePortResult, FindByServiceResult } from ".";
+import { Port, AppendServiceResult, FindByPortResult, UpdatePortResult, FindByServiceResult } from "./spec";
 import { BalanceService } from "./BalanceService";
 
 describe('initiate object', () => {

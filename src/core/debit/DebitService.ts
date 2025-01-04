@@ -1,4 +1,4 @@
-import { Port, FindByLenderAndBorrowerServiceResult, FindByLenderServiceResult, Service, FindByPortResult, BaseFindByResult, FindByServiceResult } from ".";
+import { Port, FindByLenderAndBorrowerServiceResult, FindByLenderServiceResult, Service, BaseFindByResult, FindByServiceResult } from "./spec";
 
 export class DebitService implements Service {
     private adapter: Port

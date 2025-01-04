@@ -1,13 +1,6 @@
-export interface Service {
-    login(username: string): Promise<LoginServiceResult | null>
-    logout(username: string): Promise<void>
-}
+import { AuthService } from './AuthService';
+import { Service } from './spec';
 
-export class LoginServiceResult {
-    username: string;
-    balance: number;
-    owedTo: string;
-    owedToAmount: number;
-    owedFrom: string;
-    owedFromAmount: number;
-}
+
+export { AuthService }
+export type { Service }

@@ -1,4 +1,4 @@
-import { DepositServiceResult, Service, TransferServiceResult } from ".";
+import { DepositServiceResult, Service, TransferServiceResult } from "./spec";
 import { sub } from "../../common/util/calculator";
 import * as Balance from "../balance";
 import * as Debit from "../debit";
