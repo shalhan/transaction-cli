@@ -13,8 +13,12 @@ export class TransactionService implements Service {
     }
 
     public async transfer(senderUsername: string, recipientUsername: string, amount: number): Promise<TransferServiceResult> {
+        if (isNaN(amount)) {
+            throw new Error("transfer amount is not valid");
+        }
+        
         if (amount <= 0) {
-            throw new Error("invalid amount");
+            throw new Error("amount cannot be less than 0");
         }
 
         const senderBalance = await this.balanceService.findBy(senderUsername);
@@ -41,8 +45,12 @@ export class TransactionService implements Service {
     }
 
     public async deposit(username: string, amount: number): Promise<DepositServiceResult> {
+        if (isNaN(amount)) {
+            throw new Error("transfer amount is not valid");
+        }
+
         if (amount <= 0) {
-            throw new Error("invalid amount");
+            throw new Error("amount cannot be less than 0");
         }
 
         const depositor = await this.balanceService.findBy(username);

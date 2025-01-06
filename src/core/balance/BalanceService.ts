@@ -17,6 +17,9 @@ export class BalanceService implements Service {
     }
 
     public async append(username: string, amount: number): Promise<AppendServiceResult | null> {
+        if (isNaN(amount)) {
+            throw new Error("deposit amount is not valid");
+        }
         const balance = await this.balanceAdapter.findBy(username)
         if (balance == null) {
             throw new Error("user balance is not exist");

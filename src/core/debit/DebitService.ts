@@ -12,6 +12,9 @@ export class DebitService implements Service {
     }
 
     public createOrUpdate(lender: string, borrower: string, amount: number): Promise<any> {
+        if (isNaN(amount)) {
+            throw new Error("debit amount is not valid");
+        }
         return this.adapter.createOrUpdate(lender, borrower, amount);
     }
     
