@@ -139,33 +139,15 @@ export class TransactionService implements Service {
 
             return this.mapToTransferServiceResult(adtRecipientBalance, newSenderBalance, newDebit);
         } catch (err) {
-            await this.balanceService.update(senderBalance.username, senderBalance.balance);
-            await this.balanceService.update(recipientBalance.username, recipientBalance.balance);
-            await this.debitService.update(debit.lender, debit.borrower, debit.amount);
+            await this.handleRollback( async () => {            
+                await this.balanceService.update(senderBalance.username, senderBalance.balance);
+                await this.balanceService.update(recipientBalance.username, recipientBalance.balance);
+                await this.debitService.update(debit.lender, debit.borrower, debit.amount);
+            })
 
             return null;
         }
         
-    }
-
-    mapToTransferServiceResult(transferAmount: number, newSenderBalance: Balance.AppendServiceResult, newDebit: Debit.CreateOrUpdateServiceResult | null): TransferServiceResult {
-        const res = new TransferServiceResult();
-        res.balance = newSenderBalance.balance;
-        res.transferAmount = transferAmount;
-        res.owedTo = "";
-        res.owedToAmount = 0;
-        res.owedFrom = "";
-        res.owedFromAmount = 0;
-
-        if (newDebit != null && newDebit.borrower == newSenderBalance.username && newDebit.amount != 0) {
-            res.owedTo = newDebit.lender;
-            res.owedToAmount = newDebit.amount;
-        } else if (newDebit != null && newDebit.lender == newSenderBalance.username && newDebit.amount != 0) {
-            res.owedFrom = newDebit.borrower;
-            res.owedFromAmount = newDebit.amount;
-        }
-
-        return res;
     }
 
     private async handleTransferWhenSenderIsBorrower(senderBalance: Balance.FindByServiceResult, recipientBalance: Balance.FindByServiceResult, debit: Debit.FindByLenderAndBorrowerServiceResult, amount: number): Promise<TransferServiceResult> {
@@ -190,9 +172,11 @@ export class TransactionService implements Service {
         
             return this.mapToTransferServiceResult(adtRecipientBalance, newSenderBalance, newDebit);
         } catch (err) {
-            await this.balanceService.update(senderBalance.username, senderBalance.balance);
-            await this.balanceService.update(recipientBalance.username, recipientBalance.balance);
-            await this.debitService.update(debit.lender, debit.borrower, debit.amount);
+            await this.handleRollback( async () => {   
+                await this.balanceService.update(senderBalance.username, senderBalance.balance);
+                await this.balanceService.update(recipientBalance.username, recipientBalance.balance);
+                await this.debitService.update(debit.lender, debit.borrower, debit.amount);
+            });
 
             return null;
         }
@@ -225,10 +209,41 @@ export class TransactionService implements Service {
 
             return this.mapToTransferServiceResult(adtRecipientBalance, newSenderBalance, newDebit);
         } catch (err) {
-            await this.balanceService.update(senderBalance.username, senderBalance.balance);
-            await this.balanceService.update(recipientBalance.username, recipientBalance.balance);
+            await this.handleRollback( async () => {   
+                await this.balanceService.update(senderBalance.username, senderBalance.balance);
+                await this.balanceService.update(recipientBalance.username, recipientBalance.balance);
+            });
         }
 
+    }
+
+     
+    async handleRollback(fn: () => Promise<any>) {
+        try {
+            await fn()
+        } catch (err) {
+            // handle rollback error
+        }
+    }
+
+    mapToTransferServiceResult(transferAmount: number, newSenderBalance: Balance.AppendServiceResult, newDebit: Debit.CreateOrUpdateServiceResult | null): TransferServiceResult {
+        const res = new TransferServiceResult();
+        res.balance = newSenderBalance.balance;
+        res.transferAmount = transferAmount;
+        res.owedTo = "";
+        res.owedToAmount = 0;
+        res.owedFrom = "";
+        res.owedFromAmount = 0;
+
+        if (newDebit != null && newDebit.borrower == newSenderBalance.username && newDebit.amount != 0) {
+            res.owedTo = newDebit.lender;
+            res.owedToAmount = newDebit.amount;
+        } else if (newDebit != null && newDebit.lender == newSenderBalance.username && newDebit.amount != 0) {
+            res.owedFrom = newDebit.borrower;
+            res.owedFromAmount = newDebit.amount;
+        }
+
+        return res;
     }
 
     private mapToDepositServiceResult(transferAmount: number, transferRecipient: string, result: Balance.UpdateServiceResult, owed: number): DepositServiceResult {

@@ -6,7 +6,7 @@ export interface Port {
 
 export interface Service {
     findBy(username: string): Promise<FindByServiceResult | null>
-    append(username: string, adtAmount: number): Promise<AppendServiceResult> // refine later
+    append(username: string, adtAmount: number): Promise<AppendServiceResult | null> // refine later
     update(username: string, newAmount: number): Promise<UpdateServiceResult>
 }
 

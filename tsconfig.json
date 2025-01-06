@@ -1,26 +1,3 @@
-// {
-//   "ts-node": {
-//     // Tell ts-node CLI to install the --loader automatically
-//     "esm": true
-//   },
-//   "compilerOptions": {
-//     "module": "es2022",
-//     "esModuleInterop": true,
-//     "target": "es2020",
-//     "moduleResolution": "node",
-//     "sourceMap": true,
-//     "outDir": "./dist",
-//     "resolveJsonModule": true,
-//     "noImplicitAny": false,
-//     "removeComments": true,
-//     "preserveConstEnums": true,
-//     "declaration": true,
-//     "lib": ["es2020", "dom", "ES2021.WeakRef"]
-//   },
-//   "include": ["src/**/*"],
-//   "exclude": ["node_modules", "src/**/*.test.ts"]
-// }
-
 {
   "compilerOptions": {
     "module": "ES2022",

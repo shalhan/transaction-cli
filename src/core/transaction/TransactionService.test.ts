@@ -41,8 +41,7 @@ describe('transfer()', () => {
             const res = await svc.transfer("parker", "cindy", 0);
             expect(0).toBe(1);
         } catch (err) {
-            console.log("\nslkdjfklsdjfk=>", err.message, "dfddd\n")
-            expect(err.message).toEqual("invalid amount");
+            expect(err.message).toEqual("amount cannot be less than 0");
         }
     })
 
@@ -65,7 +64,7 @@ describe('transfer()', () => {
             const res = await svc.transfer("parker", "cindy", -1000);
             expect(0).toBe(1);
         } catch (err) {
-            expect(err.message).toEqual("invalid amount");
+            expect(err.message).toEqual("amount cannot be less than 0");
         }
     })
 
@@ -397,6 +396,49 @@ describe('transfer()', () => {
         expect(mockBalanceService.append).toHaveBeenCalledWith("b", 500);
         expect(mockDebitService.createOrUpdate).toHaveBeenCalledWith("b", "a", 1000);
     })
+
+    test('when updating recipient balance error, should perform rollback', async () => {
+        const mockBalanceService: jest.Mocked<Service> = {
+            update: jest.fn(),
+            findBy: jest.fn(),
+            append: jest.fn()
+        };
+        const mockDebitService: jest.Mocked<DebitService.Service> = {
+            update: jest.fn(),
+            createOrUpdate: jest.fn(),
+            findByLenderAndBorrower: jest.fn(),
+            findByBorrower: jest.fn(),
+            findByLenderOrBorrower: jest.fn()
+        };
+        const mockFindByRes1 = new FindByServiceResult();
+        mockFindByRes1.username = "a";
+        mockFindByRes1.balance = 500;
+
+        const mockFindByRes2 = new FindByServiceResult();
+        mockFindByRes2.username = "b";
+        mockFindByRes2.balance = 2000;
+        mockBalanceService.findBy.mockResolvedValueOnce(mockFindByRes1)
+        mockBalanceService.findBy.mockResolvedValueOnce(mockFindByRes2)
+        
+        const mockFindByLenderAndBorrower = new FindByLenderAndBorrowerServiceResult();
+        mockFindByLenderAndBorrower.lender = "b";
+        mockFindByLenderAndBorrower.borrower = "a";
+        mockFindByLenderAndBorrower.amount = 500;
+
+        mockDebitService.findByLenderAndBorrower.mockResolvedValueOnce(null);
+        mockDebitService.findByLenderAndBorrower.mockResolvedValueOnce(mockFindByLenderAndBorrower);
+
+        mockBalanceService.append.mockResolvedValueOnce(null);
+        mockBalanceService.append.mockImplementationOnce(() => {throw new Error("Error call recipient")});
+
+        const svc = new TransactionService(mockBalanceService, mockDebitService);
+        const res = await svc.transfer("a", "b", 1000);
+
+        expect(res).toBeNull();
+        expect(mockBalanceService.update).toHaveBeenCalledWith("a", 500);
+        expect(mockBalanceService.update).toHaveBeenCalledWith("b", 2000);
+        expect(mockDebitService.update).toHaveBeenCalledWith("b", "a", 500);
+    })
 })
 
 describe('deposit()', () => {
@@ -418,7 +460,7 @@ describe('deposit()', () => {
             const res = await svc.deposit("parker", -5000);
             expect(0).toBe(1);
         } catch (err) {
-            expect(err.message).toEqual("invalid amount");
+            expect(err.message).toEqual("amount cannot be less than 0");
         }
     }) 
 

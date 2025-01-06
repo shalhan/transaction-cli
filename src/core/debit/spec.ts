@@ -9,7 +9,7 @@ export interface Port {
 export interface Service {
     createOrUpdate(lender: string, borrower: string, amount: number): Promise<CreateOrUpdateServiceResult>;
     update(lender: string, borrower: string, amount: number): Promise<any>;
-    findByLenderAndBorrower(lender: string, borrower: string): Promise<FindByLenderAndBorrowerServiceResult>;
+    findByLenderAndBorrower(lender: string, borrower: string): Promise<FindByLenderAndBorrowerServiceResult | null>;
     findByBorrower(borrower: string): Promise<FindByLenderServiceResult[]>;
     findByLenderOrBorrower(username: string): Promise<FindByServiceResult[]>;
 }
